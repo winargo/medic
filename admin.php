@@ -91,6 +91,8 @@
   <a href="#">Inbox</a>
   <a href="#">News List</a>
   <a href="#">Partners list</a>
+  <a href="#">data management</a>
+  <a href="#">User Management</a>
 </div>
 
 

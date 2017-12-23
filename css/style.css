@@ -35,7 +35,7 @@ nav{
     margin-left: 3%;
     margin-right: 3%;
 }
-#Home,#News,#Booking,#Partners,#Contact,#Review,#About,#userspace1,#userspace2,#homelogin,#homesearch{
+#Home,#News,#Booking,#Partners,#Contact,#Review,#About,#userspace1,#userspace2,#homelogin,#homesearch,#homename{
     padding: 15 15;
     padding: 15px;
     color: white;
@@ -90,20 +90,9 @@ h1{
     height: auto;
     background-color: ivory;
 }
-
-input[type=text] {
-    margin: 0 auto;
-    width: 70%;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-    border: 1px solid white;
-    padding: 5PX;
-    margin-bottom: 4%;
-}
-
-/* When the input field gets focus, change its width to 100% */
-input[type=text]:focus {
-    width: 100%;
+input{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 #searchbar{
 }

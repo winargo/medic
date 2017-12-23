@@ -31,6 +31,15 @@
       <input type="password" name="password" placeholder="password"/>
       <button>login</button>
       <p class="message">Not registered? <a href="#">Create an account</a></p>
+      <?php
+        if($_SESSION["error"]==null){
+            $_SESSION["error"]="";
+        }
+        if($_SESSION["error"]!=""){
+        echo '<p>'.$_SESSION["error"].'</p>';
+            $_SESSION["error"]="";
+        }
+        ?>
     </form>
     <a href="Home.php">Forgot Password ?
   </a>

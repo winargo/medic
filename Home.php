@@ -1,4 +1,8 @@
 <html>
+ <?php
+    Session_start();
+    $username=$_SESSION["username"];
+    ?>
   <head>
     <link rel="stylesheet" href="css/style.css" type="text/css">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -63,6 +67,12 @@
               width: 100%;
               height: 50%;
           }
+          #homename{
+                padding: 15px 15px;
+                padding: 15px;
+                color: white;
+                text-decoration: none;
+            }
       </style>
   </head>
    <body>
@@ -76,8 +86,22 @@
        <a id="Contact" href="contact.php">Contact us</a>
        <a id="Partners" href="partners.php">Partners</a>
           <a id="About" href="about.php">About us</a>
-           <a id="homesearch" href="search.php" style="margin-left:15%;"><span class="glyphicon glyphicon-search"></span> Search</a>
+          <?php
+            if ($username==""){
+                echo'
+                <a id="homesearch" href="search.php" style="margin-left:15%;"><span class="glyphicon glyphicon-search"></span> Search</a>
            <a id="homelogin" href="index.php"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                ';
+            }
+          else{
+               echo '
+                <a id="homename"  style="margin-left:15%;">Hi, '.$username.'</a>
+                <a id="homesearch" href="search.php"><span class="glyphicon glyphicon-search"></span> Search</a>
+           <a id="homelogin" href="logout.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+                ';
+          }
+          ?>
+           
        </div>
 
        </nav>
@@ -111,7 +135,7 @@
        <div class="first">
        <p class="important">
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Sistem Darurat Indonesia</b> Untuk Setiap Orang yang membutuhkan <b>Pertolongan Darurat</b> secepatnya
-           </p>p>
+           </p>
         </div>
         <h2><b>Bagaimana Cara Kerja Sistem ini ?</b></h2>
         <div class="second">
