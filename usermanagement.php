@@ -1,20 +1,25 @@
 <html>
  <?php
-    session_start();
-    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
-    include("blockadmin.php");
-?>
+     session_start();
+    ?>
   <head>
    <link rel="stylesheet" href="css/style.css" type="text/css">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta charset="utf-8">
     <script type="text/javascript" src="js/javascript.js"></script>
       <title>Selamat Datang di SCMES</title>
       </head>
       <style>
-    
+          table,th,td{
+              text-align: center;
+              margin: 0 auto;
+              padding: 0;
+              margin: 0;
+          }
+          form{
+              margin-bottom: 0px;
+          }
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
@@ -90,15 +95,15 @@
        </div>
 
        </nav>
-
+       
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="admin.php" style="background-color:white; color:black;">Verifikasi</a>
+  <a href="admin.php">Verifikasi</a>
   <a href="inbox.php">Inbox</a>
   <a href="newslist.php">News List</a>
   <a href="partnerslist.php">Partners list</a>
   <a href="datamanagement.php">data management</a>
-  <a href="usermanagement.php">User Management</a>
+  <a href="usermanagement.php" style="background-color:white; color:black;">User Management</a>
 </div>
 
 
@@ -116,23 +121,18 @@ function closeNav() {
     document.body.style.backgroundColor = "white";
 }
 </script>
-     
+    <div class="container">
      <div id="content"  href="javascript:void(0)" class="closebtn" onclick="closeNav()">
-         <div class="container">
-  <h2>Verifikasi Emergency</h2>
-  <p>Pehatikan permintaan Darurat Secara seksama</p>            
+         
+  <h2>User Management</h2>
+  <p>Daftar User Scmes Sihlahkan lanjutkan dengan hati-hati</p>            
   <table class="table table-striped">
     <thead>
-     <tr>
-         Panggilan Darurat Pending
-     </tr>
       <tr>
        <th>No.</th>
-        <th>Pemanggil</th>
-        <th>Lokasi</th>
-        <th>No HP</th>
-        <th>alamat</th>
-        <th>Keterangan</th>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Online</th>
         <th>Action1</th>
         <th>Action2</th>
       </tr>
@@ -157,62 +157,12 @@ function closeNav() {
               <td>
                 <form action='setadmin.php' method='post'>
             <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn btn-primary'>Terima Permintaan</button>
+            <button type='submit' class='btn btn btn-primary'>Clear Password</button>
             </form></td>
             <td>
                 <form action='desetadmin.php' method='post'>
             <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn-danger'>Tolak Permintaan</button>
-            </form></td>
-            </tr>";
-                    $a++;
-                    }
-                    ?>
-        
-    </tbody>
-  </table>
-  <table class="table table-striped">
-    <thead>
-     <tr>
-         Panggilan Darurat Diterima
-     </tr>
-      <tr>
-       <th>No.</th>
-        <th>Pemaggil</th>
-        <th>Lokasi</th>
-        <th>No HP</th>
-        <th>alamat</th>
-        <th>Keterangan</th>
-        <th>Action1</th>
-        <th>Action2</th>
-      </tr>
-    </thead>
-    <tbody>
-       <?php
-                   
-                    include('db_connect.php');
-                    $user=$_SESSION["username"];
-                    $sql = "Select * from `user`" ;
-                    $result = mysqli_query($conn,$sql);
-                    $a=1;
-                    while( $row = mysqli_fetch_assoc( $result ) ){
-                        
-            echo "
-            <tr>
-              <td id='1'>$a</td>
-              <td>'".$row['name']."'</td>
-              <td>'".$row['username']."'</td>";
-                        if ($row['online']==0){echo "<td style='color:red;'>Offline</td>";}else{echo "<td style='color:green;'>Online</td>";};
-              echo "</td>
-              <td>
-                <form action='setadmin.php' method='post'>
-            <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn btn-primary'>Terima Permintaan</button>
-            </form></td>
-            <td>
-                <form action='desetadmin.php' method='post'>
-            <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn-danger'>Tolak Permintaan</button>
+            <button type='submit' class='btn btn-danger'>delete user</button>
             </form></td>
             </tr>";
                     $a++;
@@ -224,5 +174,5 @@ function closeNav() {
 </div>
 
      </div>
-    </body>
+</body>
 </html>

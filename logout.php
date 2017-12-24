@@ -15,6 +15,7 @@
         }
         else
         {
+            $_SESSION["adminname"]="";
             $_SESSION["username"]="";
         header ("Location: Home.php");
           exit();

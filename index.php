@@ -1,5 +1,14 @@
 <?php
+error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
     session_start();
+    if($_SESSION["adminname"]!=""){
+        header ("Location: admin.php");
+        exit();
+        }
+    if($_SESSION["username"]!=""){
+        header ("Location: home.php");
+        exit();
+        }
 ?>
 
   <html>

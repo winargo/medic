@@ -20,7 +20,7 @@
               margin: 0 auto;
           }
           #sendbutton{
-              margin-top: 2%;
+              margin-top: 3%;
               width: 30%;
               padding: 2%;
           }
@@ -33,6 +33,9 @@
               bottom: 0;
               width: 100%;
               z-index: -1;
+          }
+          input,textarea{
+              margin-top: 20px;
           }
       </style>
   </head>

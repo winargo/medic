@@ -24,6 +24,7 @@
           $_SESSION["username"] = $username;
           $_SESSION["online"] = "1";
           if($row['admin']==1){
+              $_SESSION["adminname"] = $username;
               header ("Location: admin.php");
           }
           else{
