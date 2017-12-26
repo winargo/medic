@@ -17,7 +17,7 @@
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
     left: 0;
-    background-color: #111; /* Black*/
+    background-color: coral; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -28,7 +28,7 @@
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: white;
     display: block;
     transition: 0.3s;
 }
@@ -111,7 +111,54 @@ function closeNav() {
 }
 </script>
      <div id="content"  href="javascript:void(0)" class="closebtn" onclick="closeNav()">
-         
+         <h2>Inbox</h2>
+  <p>Pesan bantuan dari Pengguna</p>            
+  <table class="table table-striped">
+    <thead>
+      <tr>
+       <th>No.</th>
+        <th>Report ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+       <?php
+                   
+                    include('db_connect.php');
+                    $sql = "Select * from `report`" ;
+                    $result = mysqli_query($conn,$sql);
+                    $a=1;
+                    while( $row = mysqli_fetch_assoc( $result ) ){
+                        
+            echo "
+            <tr>
+              <td id='1'>$a</td>
+              <td>'".$row['reportid']."'</td>
+              <td>'".$row['name']."'</td>
+              <td>'".$row['email']."'</td>
+              <td>'".$row['keterangan']."'</td>
+              ";
+              echo "
+              <td>
+                <form action='setadmin.php' method='post'>
+            <input type='hidden' name='username' value='".$row['reportid']."'>
+            <button type='submit' class='btn btn btn-primary'>View</button>
+            </form></td>
+            <td>
+                <form action='desetadmin.php' method='post'>
+            <input type='hidden' name='username' value='".$row['reportid']."'>
+            <button type='submit' class='btn btn-danger'>delete</button>
+            </form></td>
+            </tr>";
+                    $a++;
+                    }
+                    ?>
+        
+    </tbody>
+  </table>
      </div>
 </body>
 </html>

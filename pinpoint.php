@@ -1,4 +1,9 @@
 <html>
+ <?php
+    Session_start();
+    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+    $username=$_SESSION["username"];
+    ?>
   <head>
     <link rel="stylesheet" href="css/style.css" type="text/css">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

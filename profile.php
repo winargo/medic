@@ -1,6 +1,7 @@
 <html>
  <?php
     Session_start();
+    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
     $username=$_SESSION["username"];
     ?>
   <head>
@@ -27,7 +28,15 @@
        </div>
 
        </nav>
-       
+    <div id="content">
+        <div id="booking">
+            
+        </div>
+        <div id="review">
+            
+        </div>
+        
+    </div>       
       <a href="emergency.php"><button type="button" class="btn btn-danger" id="emergencybutton" href=>Emergency Button</button></a>
 
 </body>

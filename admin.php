@@ -23,7 +23,7 @@
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
     left: 0;
-    background-color: #111; /* Black*/
+    background-color: coral; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -34,7 +34,7 @@
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: white;
     display: block;
     transition: 0.3s;
 }
@@ -179,6 +179,58 @@ function closeNav() {
       <tr>
        <th>No.</th>
         <th>Pemaggil</th>
+        <th>Lokasi</th>
+        <th>No HP</th>
+        <th>alamat</th>
+        <th>Keterangan</th>
+        <th>Action1</th>
+        <th>Action2</th>
+      </tr>
+    </thead>
+    <tbody>
+       <?php
+                   
+                    include('db_connect.php');
+                    $user=$_SESSION["username"];
+                    $sql = "Select * from `user`" ;
+                    $result = mysqli_query($conn,$sql);
+                    $a=1;
+                    while( $row = mysqli_fetch_assoc( $result ) ){
+                        
+            echo "
+            <tr>
+              <td id='1'>$a</td>
+              <td>'".$row['name']."'</td>
+              <td>'".$row['username']."'</td>";
+                        if ($row['online']==0){echo "<td style='color:red;'>Offline</td>";}else{echo "<td style='color:green;'>Online</td>";};
+              echo "</td>
+              <td>
+                <form action='setadmin.php' method='post'>
+            <input type='hidden' name='username' value='".$row['username']."'>
+            <button type='submit' class='btn btn btn-primary'>Terima Permintaan</button>
+            </form></td>
+            <td>
+                <form action='desetadmin.php' method='post'>
+            <input type='hidden' name='username' value='".$row['username']."'>
+            <button type='submit' class='btn btn-danger'>Tolak Permintaan</button>
+            </form></td>
+            </tr>";
+                    $a++;
+                    }
+                    ?>
+        
+    </tbody>
+  </table>
+  <h2>Daftar Pemesanan Checkup</h2>
+  <p>Harap diteruskan kepada rumah sakit Yang diinginkan</p>            
+  <table class="table table-striped">
+    <thead>
+     <tr>
+         Panggilan Darurat Pending
+     </tr>
+      <tr>
+       <th>No.</th>
+        <th>Pemanggil</th>
         <th>Lokasi</th>
         <th>No HP</th>
         <th>alamat</th>

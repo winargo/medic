@@ -1,6 +1,7 @@
 <html>
     <?php
-    Session_start();
+    Session_start();  
+    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
     $username=$_SESSION["username"];
     ?>
   <head>

@@ -1,6 +1,7 @@
 <html>
  <?php
-    Session_start();
+    Session_start();   
+    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
     $username=$_SESSION["username"];
     ?>
   <head>
@@ -85,10 +86,10 @@
 
 					</div>
 					<div class="col-md-6">
-						<form>
-                            <input type="text" class="form-control" placeholder="Name">
-                            <input type="text" class="form-control" placeholder="Email">
-                            <textarea class="form-control" rows="3" placeholder="Message"></textarea>
+						<form method="post" action="sendreport.php">
+                            <input name="name" type="text" class="form-control" placeholder="Name" required>
+                            <input name=email type="email" class="form-control" placeholder="Email" required>
+                            <textarea name="keterangan" class="form-control" rows="3" placeholder="Message" required></textarea>
                             <button class="btn btn-success" type="submit" id="sendbutton">SEND</button>
                         </form>
 					</div>
