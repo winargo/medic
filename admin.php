@@ -76,6 +76,13 @@
           }
           #content{
               height: auto;
+              width: auto;
+          }
+          td,tr,th{
+              text-align: center;
+          }
+          a{
+            
           }
     </style>
    <body>
@@ -131,7 +138,7 @@ function closeNav() {
         <th>Pemanggil</th>
         <th>Lokasi</th>
         <th>No HP</th>
-        <th>alamat</th>
+        <th>diperiksa</th>
         <th>Keterangan</th>
         <th>Action1</th>
         <th>Action2</th>
@@ -142,27 +149,46 @@ function closeNav() {
                    
                     include('db_connect.php');
                     $user=$_SESSION["username"];
-                    $sql = "Select * from `user`" ;
+                    $sql = "Select * from `emergencyreport` where accepted is null" ;
                     $result = mysqli_query($conn,$sql);
                     $a=1;
                     while( $row = mysqli_fetch_assoc( $result ) ){
                         
             echo "
             <tr>
-              <td id='1'>$a</td>
-              <td>'".$row['name']."'</td>
-              <td>'".$row['username']."'</td>";
-                        if ($row['online']==0){echo "<td style='color:red;'>Offline</td>";}else{echo "<td style='color:green;'>Online</td>";};
-              echo "</td>
+              <td id='1'>$a</td>";if($row['caller']==""){
+                  echo "<td>Tidak diketahui";
+              }
+                        else{
+                             echo "<td>'".$row['caller']."'";
+                        }echo "</td>
+              <td>'".$row['location']."'</td>
+              <td>'".$row['hp']."'</td>";
+                        if($row['checked']==0){
+                            echo"<td><i class='glyphicon glyphicon-remove' style='font-size:24px;color:red;'></i></td>";
+                        }else
+                        {
+                           echo"<td><i class='glyphicon glyphicon-ok' style='font-size:24px;color:green;'></i></td>"; 
+                        }
+              echo"
               <td>
-                <form action='setadmin.php' method='post'>
-            <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn btn-primary'>Terima Permintaan</button>
+              <form action='admininfo.php' method='post'>
+            <input type='hidden' name='emergencyid' value='".$row['emergencyid']."'>
+            <input type='hidden' name='command' value='show'>
+            <button type='submit' class='btn btn btn-primary'>Tampilkan</button>
+            </form>
+              </td>
+              <td>
+                <form action='admininfo.php' method='post'>
+            <input type='hidden' name='emergencyid' value='".$row['emergencyid']."'>
+            <input type='hidden' name='command' value='accept'>
+            <button type='submit' class='btn btn btn-success'>Terima </button>
             </form></td>
             <td>
-                <form action='desetadmin.php' method='post'>
-            <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn-danger'>Tolak Permintaan</button>
+                <form action='admininfo.php' method='post'>
+            <input type='hidden' name='emergencyid' value='".$row['emergencyid']."'>
+            <input type='hidden' name='command' value='ignore'>
+            <button type='submit' class='btn btn-danger'>Tolak</button>
             </form></td>
             </tr>";
                     $a++;
@@ -173,100 +199,106 @@ function closeNav() {
   </table>
   <table class="table table-striped">
     <thead>
-     <tr>
-         Panggilan Darurat Diterima
+     <tr style="font-size='14pt'">
+        <strong>Panggilan Darurat Diterima</strong>
      </tr>
       <tr>
        <th>No.</th>
         <th>Pemaggil</th>
         <th>Lokasi</th>
         <th>No HP</th>
-        <th>alamat</th>
+        <th>Diperiksa</th>
         <th>Keterangan</th>
-        <th>Action1</th>
-        <th>Action2</th>
       </tr>
-    </thead>
+     </thead>
     <tbody>
        <?php
                    
                     include('db_connect.php');
                     $user=$_SESSION["username"];
-                    $sql = "Select * from `user`" ;
+                    $sql = "Select * from `emergencyreport` where accepted=1" ;
                     $result = mysqli_query($conn,$sql);
                     $a=1;
                     while( $row = mysqli_fetch_assoc( $result ) ){
                         
             echo "
             <tr>
-              <td id='1'>$a</td>
-              <td>'".$row['name']."'</td>
-              <td>'".$row['username']."'</td>";
-                        if ($row['online']==0){echo "<td style='color:red;'>Offline</td>";}else{echo "<td style='color:green;'>Online</td>";};
-              echo "</td>
+              <td id='1'>$a</td>";if($row['caller']==""){
+                  echo "<td>Tidak diketahui";
+              }
+                        else{
+                             echo "<td>'".$row['caller']."'";
+                        }echo "</td>
+              <td>'".$row['location']."'</td>
+              <td>'".$row['hp']."'</td>";
+                        if($row['checked']==0){
+                            echo"<td><i class='glyphicon glyphicon-remove' style='font-size:24px;color:red;'></i></td>";
+                        }else
+                        {
+                           echo"<td><i class='glyphicon glyphicon-ok' style='font-size:24px;color:green;'></i></td>"; 
+                        }
+              echo"
               <td>
-                <form action='setadmin.php' method='post'>
-            <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn btn-primary'>Terima Permintaan</button>
-            </form></td>
-            <td>
-                <form action='desetadmin.php' method='post'>
-            <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn-danger'>Tolak Permintaan</button>
-            </form></td>
-            </tr>";
+              <form action='admininfo.php' method='post'>
+            <input type='hidden' name='emergencyid' value='".$row['emergencyid']."'>
+            <input type='hidden' name='command' value='show'>
+            <button type='submit' class='btn btn btn-primary'>Tampilkan</button>
+            </form>
+              </td>";
                     $a++;
                     }
                     ?>
         
     </tbody>
   </table>
-  <h2>Daftar Pemesanan Checkup</h2>
-  <p>Harap diteruskan kepada rumah sakit Yang diinginkan</p>            
-  <table class="table table-striped">
+             <table class="table table-striped">
     <thead>
-     <tr>
-         Panggilan Darurat Pending
+     <tr style="font-size='14pt'">
+        <strong>Panggilan Darurat Ditolak</strong>
      </tr>
       <tr>
        <th>No.</th>
-        <th>Pemanggil</th>
+        <th>Pemaggil</th>
         <th>Lokasi</th>
         <th>No HP</th>
-        <th>alamat</th>
+        <th>Diperiksa</th>
         <th>Keterangan</th>
-        <th>Action1</th>
-        <th>Action2</th>
       </tr>
-    </thead>
+     </thead>
     <tbody>
        <?php
                    
                     include('db_connect.php');
                     $user=$_SESSION["username"];
-                    $sql = "Select * from `user`" ;
+                    $sql = "Select * from `emergencyreport` where accepted=0" ;
                     $result = mysqli_query($conn,$sql);
                     $a=1;
                     while( $row = mysqli_fetch_assoc( $result ) ){
                         
             echo "
             <tr>
-              <td id='1'>$a</td>
-              <td>'".$row['name']."'</td>
-              <td>'".$row['username']."'</td>";
-                        if ($row['online']==0){echo "<td style='color:red;'>Offline</td>";}else{echo "<td style='color:green;'>Online</td>";};
-              echo "</td>
+              <td id='1'>$a</td>";if($row['caller']==""){
+                  echo "<td>Tidak diketahui";
+              }
+                        else{
+                             echo "<td>'".$row['caller']."'";
+                        }echo "</td>
+              <td>'".$row['location']."'</td>
+              <td>'".$row['hp']."'</td>";
+                        if($row['checked']==0){
+                            echo"<td><i class='glyphicon glyphicon-remove' style='font-size:24px;color:red;'></i></td>";
+                        }else
+                        {
+                           echo"<td><i class='glyphicon glyphicon-ok' style='font-size:24px;color:green;'></i></td>"; 
+                        }
+              echo"
               <td>
-                <form action='setadmin.php' method='post'>
-            <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn btn-primary'>Terima Permintaan</button>
-            </form></td>
-            <td>
-                <form action='desetadmin.php' method='post'>
-            <input type='hidden' name='username' value='".$row['username']."'>
-            <button type='submit' class='btn btn-danger'>Tolak Permintaan</button>
-            </form></td>
-            </tr>";
+              <form action='admininfo.php' method='post'>
+            <input type='hidden' name='emergencyid' value='".$row['emergencyid']."'>
+            <input type='hidden' name='command' value='show'>
+            <button type='submit' class='btn btn btn-primary'>Tampilkan</button>
+            </form>
+              </td>";
                     $a++;
                     }
                     ?>

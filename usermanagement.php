@@ -155,13 +155,15 @@ function closeNav() {
                         if ($row['online']==0){echo "<td style='color:red;'>Offline</td>";}else{echo "<td style='color:green;'>Online</td>";};
               echo "</td>
               <td>
-                <form action='setadmin.php' method='post'>
+                <form action='usersetup.php' method='post'>
             <input type='hidden' name='username' value='".$row['username']."'>
+            <input type='hidden' name='command' value='clear'>
             <button type='submit' class='btn btn btn-primary'>Clear Password</button>
             </form></td>
             <td>
-                <form action='desetadmin.php' method='post'>
+                <form action='usersetup.php' method='post'>
             <input type='hidden' name='username' value='".$row['username']."'>
+            <input type='hidden' name='command' value='delete'>
             <button type='submit' class='btn btn-danger'>delete user</button>
             </form></td>
             </tr>";

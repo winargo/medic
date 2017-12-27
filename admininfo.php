@@ -1,9 +1,15 @@
 <html>
+ <?php
+    session_start();
+    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+    include("blockadmin.php");
+?>
   <head>
    <link rel="stylesheet" href="css/style.css" type="text/css">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
     <script type="text/javascript" src="js/javascript.js"></script>
       <title>Selamat Datang di SCMES</title>
       </head>
@@ -68,11 +74,27 @@
           #logo{
               float: left;
           }
+          
+          img{
+              width: 300;
+              height: 250;
+          }
+          #emergencyinfo{
+          width: 68%;
+          float: left;
+      }
           #content{
-              height: 90%;
-          } 
-          td,tr,th{
-              text-align: center;
+              height: 100%;
+          }
+          #emergencytext{
+              width: 100%;
+              float: left;
+          }
+          #emergencyiteminfo{
+              width: 100%;
+          }
+          h2,#emergencytitle{
+            color: black;
           }
     </style>
    <body>
@@ -90,8 +112,8 @@
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="admin.php">Verifikasi</a>
-  <a href="inbox.php"  style="background-color:white; color:black;">Inbox</a>
+  <a href="admin.php" style="background-color:white; color:black;">Verifikasi</a>
+  <a href="inbox.php">Inbox</a>
   <a href="newslist.php">News List</a>
   <a href="partnerslist.php">Partners list</a>
   <a href="datamanagement.php">data management</a>
@@ -113,64 +135,71 @@ function closeNav() {
     document.body.style.backgroundColor = "white";
 }
 </script>
+      <?php
+        /* Attempt MySQL server connection. Assuming you are running MySQL
+        server with default setting (user 'root' with no password) */
+        include('db_connect.php');
+            $sql="";
+            if($_POST['command']=="ignore"){
+                $sql="update `emergencyreport` set accepted=0,checked=1 where emergencyid='".$_POST['emergencyid']."'";
+                if(mysqli_query($conn, $sql)){
+                header("Location: admin.php");
+                exit();
+                    mysqli_close($link);
+            }   
+            else{
+            echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+            };
+                header("Location: admin.php");
+                exit();
+            }   
+            else if($_POST['command']=="accept"){
+                 $sql="update `emergencyreport` set accepted=1,checked=1 where emergencyid='".$_POST['emergencyid']."'";
+                if(mysqli_query($conn, $sql)){
+                header("Location: admin.php");
+                exit();
+                    mysqli_close($link);
+            }   
+            else{
+            echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+            };
+                header("Location: admin.php");
+                exit();
+            }
+           $sql="update `emergencyreport` set checked='1' where emergencyid='".$_POST['emergencyid']."'";
+             if(mysqli_query($conn, $sql)){}
+        // Close connection
+        mysqli_close($link);
+        ?>
      <div id="content"  href="javascript:void(0)" class="closebtn" onclick="closeNav()">
-         <h2>Inbox</h2>
-  <p>Pesan bantuan dari Pengguna</p>            
-  <table class="table table-striped">
-    <thead>
-      <tr>
-       <th>No.</th>
-        <th>Report ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Description</th>
-          <th>Viewed</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-       <?php
-                   
-                    include('db_connect.php');
-                    $sql = "Select * from `report`" ;
+         <div class="container">
+             
+            
+            
+    <h2 id="emergencytitle">Informasi Darurat</h2>
+             <?php
+             include('db_connect.php');
+                            $sql="";
+                            $sql = "Select * from `emergencyreport` where emergencyid='".$_POST['emergencyid']."'" ;
                     $result = mysqli_query($conn,$sql);
                     $a=1;
                     while( $row = mysqli_fetch_assoc( $result ) ){
-                        
-            echo "
-            <tr>
-              <td id='1'>$a</td>
-              <td>'".$row['reportid']."'</td>
-              <td>'".$row['name']."'</td>
-              <td>'".$row['email']."'</td>
-              <td>'".$row['keterangan']."'</td>";
-              
-                  if($row['view']==0){
-                    echo"<td><i class='glyphicon glyphicon-remove' style='font-size:24px;color:red;'></i></td>";
-                        }else
-                        {
-                           echo"<td><i class='glyphicon glyphicon-ok' style='font-size:24px;color:green;'></i></td>"; 
-                        }
-              echo "
-              <td>
-                <form action='inboxinfo.php' method='post'>
-            <input type='hidden' name='reportid' value='".$row['reportid']."'>
-            <input type='hidden' name='command' value='check'>
-            <button type='submit' class='btn btn btn-primary'>View</button>
-            </form></td>
-            <td>
-                <form action='inboxinfo.php' method='post'>
-            <input type='hidden' name='reportid' value='".$row['reportid']."'>
-            <input type='hidden' name='command' value='delete'>
-            <button type='submit' class='btn btn-danger'>delete</button>
-            </form></td>
-            </tr>";
-                    $a++;
-                    }
-                    ?>
-        
-    </tbody>
-  </table>
+             echo"
+       <div id='emergencyitem'>
+           <img src='".$row['imagedir']."' id='imageemergency'>
+           <div id='emergencyinfo'>
+              <p id='emergencytext'>
+               <input type='text' name='hp' placeholder='No Hp' class='form-control' style='margin-bottom: 10px;' value='".$row['hp']."'>
+               <input type='text' name='address' placeholder='Alamat' class='form-control' value='".$row['location']."'>
+               </p>
+               
+               <textarea class='form-control' placeholder='Informasi Penting keterangan dan Data yang Lengkap akan mempercepat verifikasi' name='keterangan' cols='40' rows='8' id='emergencyiteminfo'>".$row['keterangan']."</textarea>
+           </div>
+       </div>";}
+           ?>
+           <a href="admin.php"><button name="submit "type="submit" class="btn btn-info" id="btnreport">Kembali</button></a>
+</div>
+
      </div>
-</body>
+    </body>
 </html>

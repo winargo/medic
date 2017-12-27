@@ -2,7 +2,12 @@
     <?php
     Session_start();  
     error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+    if(!isset($_SESSION["username"])){
+        $username="";
+    }
+    else{
     $username=$_SESSION["username"];
+    }
     ?>
   <head>
     <link rel="stylesheet" href="css/style.css" type="text/css">
@@ -15,12 +20,30 @@
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
       <title>Selamat Datang di SCMES</title>
       <style>
-      #emergencyinfo{
+      
+          form{
+              padding: 2%;
+          }
+          img{
+              width: 300;
+              height: 250;
+          }
+          #emergencyinfo{
           width: 68%;
           float: left;
       }
-          form{
-              padding: 2%;
+          #content{
+              height: 100%;
+          }
+          #emergencytext{
+              width: 100%;
+              float: left;
+          }
+          #emergencyiteminfo{
+              width: 100%;
+          }
+          button{
+              width: 300px;
           }
     </style>
   </head>
@@ -32,8 +55,8 @@
 
             reader.onload = function (e) {
                 $('#imageemergency')
-                    .attr('src', e.target.result).width(350)
-                        .height(300);
+                    .attr('src', e.target.result).width(300)
+                        .height(250);
             };
 
             reader.readAsDataURL(input.files[0]);
@@ -68,29 +91,32 @@
        </div>
 
        </nav>
-       <form method="post" action="emergencycheck.php">
+       <div id="content">
+       <form method="post" action="upload.php" enctype="multipart/form-data">
     <h2 id="emergencytitle">Pertolongan Darurat</h2>
        <div id="emergencyitem">
            <img src="images/noimage.jpg" id="imageemergency">
            <div id="emergencyinfo">
               <p id="emergencytext">
                Berikan data Setepat Mungkin dan Selengkap mungkin , agar kami dapat segera mengkonfirmasi sebuat kejadian dan kebenaran akan adanya korban jiwa , sertakan nomor telefon dan nama anda demi kenyamanan bersama. Sihakan isi informasi penting berikut :
-               <input type="text" placeholder="No Hp" class="form-control" style="margin-bottom: 10px;">
-               <input type="text" placeholder="Alamat" class="form-control">
+               <input type="text" name="hp" placeholder="No Hp" class="form-control" style="margin-bottom: 10px;">
+               <input type="text" name="address" placeholder="Alamat" class="form-control">
                </p>
                
-               <textarea class="form-control" placeholder="Informasi Penting keterangan dan Data yang Lengkap akan mempercepat verifikasi" name="infoemergency" cols="40" rows="8" id="emergencyiteminfo"></textarea>
+               <textarea class="form-control" placeholder="Informasi Penting keterangan dan Data yang Lengkap akan mempercepat verifikasi" name="keterangan" cols="40" rows="8" id="emergencyiteminfo"></textarea>
            </div>
        </div>
       
       
       <div id="Buttons">
-          <button type="button" class="btn btn-info" id="addimageemergency"><input type='file' onchange="readURL(this);" /></button>
+          <button type="button" class="btn btn-info" id="addimageemergency"><input type='file' name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" /></button>
           <button type="button" class="btn btn-info" id="addlocation" >Tambah Lokasi</button>
           <a href="pinpoint.php"><button type="button" class="btn btn-info" id="autolocation">Otomatis Deteksi Lokasi</button></a>
-      </div>
-       <a href="Home.php"><button type="submit" class="btn btn-danger" id="btnreport">Laporkan</button></a>
-       </form>
+      </div>  
+           <input type="hidden" name="caller" value="<?php echo $username;?>">
+           <button name="submit "type="submit" class="btn btn-danger" id="btnreport">Laporkan</button>
+       </form></div>
+           
   <!--      <a href="emergency.php"><button type="button" class="btn btn-danger" id="emergencybutton" href=>Emergency Button</button></a>-->
 </body>
 </html>

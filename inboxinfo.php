@@ -69,10 +69,17 @@
               float: left;
           }
           #content{
-              height: 90%;
-          } 
-          td,tr,th{
-              text-align: center;
+              height: auto;
+              width: auto;
+          }
+          .col-md-6{
+              width: 100%;
+          }
+          input{
+              margin-bottom: 2%;
+          }
+          button{
+              padding: 1%;
           }
     </style>
    <body>
@@ -113,64 +120,66 @@ function closeNav() {
     document.body.style.backgroundColor = "white";
 }
 </script>
+      <?php
+        /* Attempt MySQL server connection. Assuming you are running MySQL
+        server with default setting (user 'root' with no password) */
+        include('db_connect.php');
+            $sql="";
+            echo $_POST['command'];
+            if($_POST['command']=="delete"){
+                $sql="delete from `report` where reportid='".$_POST['reportid']."'";
+                echo $sql;
+                if(mysqli_query($conn, $sql)){
+                header("Location: inbox.php");
+                exit;
+                    mysqli_close($link);
+            }   
+            else{
+            echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+            };
+            }
+       else{
+           $sql="update `report` set view='1' where reportid='".$_POST['reportid']."'";
+                if(mysqli_query($conn, $sql)){}
+       }
+        // Close connection
+        
+        ?>
      <div id="content"  href="javascript:void(0)" class="closebtn" onclick="closeNav()">
-         <h2>Inbox</h2>
-  <p>Pesan bantuan dari Pengguna</p>            
-  <table class="table table-striped">
-    <thead>
-      <tr>
-       <th>No.</th>
-        <th>Report ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Description</th>
-          <th>Viewed</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-       <?php
+         <section id="contact-form">
+			<div class="container">
+				<div class="row">
+					<div class="title">
+						<h2>CONTACT Data</h2>
+						<p>Isi Pesan</p>
+					</div>
+					<div class="col-md-6">
+						<form method="post" action="inbox.php">
+                            
+                             <?php
                    
                     include('db_connect.php');
-                    $sql = "Select * from `report`" ;
+                            $sql="";
+                            $sql = "Select * from `report` where reportid='".$_POST['reportid']."'" ;
                     $result = mysqli_query($conn,$sql);
                     $a=1;
                     while( $row = mysqli_fetch_assoc( $result ) ){
-                        
-            echo "
-            <tr>
-              <td id='1'>$a</td>
-              <td>'".$row['reportid']."'</td>
-              <td>'".$row['name']."'</td>
-              <td>'".$row['email']."'</td>
-              <td>'".$row['keterangan']."'</td>";
-              
-                  if($row['view']==0){
-                    echo"<td><i class='glyphicon glyphicon-remove' style='font-size:24px;color:red;'></i></td>";
-                        }else
-                        {
-                           echo"<td><i class='glyphicon glyphicon-ok' style='font-size:24px;color:green;'></i></td>"; 
-                        }
-              echo "
-              <td>
-                <form action='inboxinfo.php' method='post'>
-            <input type='hidden' name='reportid' value='".$row['reportid']."'>
-            <input type='hidden' name='command' value='check'>
-            <button type='submit' class='btn btn btn-primary'>View</button>
-            </form></td>
-            <td>
-                <form action='inboxinfo.php' method='post'>
-            <input type='hidden' name='reportid' value='".$row['reportid']."'>
-            <input type='hidden' name='command' value='delete'>
-            <button type='submit' class='btn btn-danger'>delete</button>
-            </form></td>
-            </tr>";
-                    $a++;
+                        echo"
+                        <input name='name' type='text' class='form-control' placeholder='Name' value='".$row['name']."'>
+                            <input name='email' type='text' class='form-control' placeholder='Email' value='".$row['email']."'>
+                            <textarea name='keterangan' class='form-control' rows='3' placeholder='Message' style='margin-bottom:30px;'>".$row['keterangan']."</textarea>
+                            <a href='inbox.php'><button class='btn btn-success' type='submit' id='sendbutton'>Back</button></a>
+                        "
+                            ;
                     }
                     ?>
-        
-    </tbody>
-  </table>
+                            
+                        </form>
+					</div>
+				</div>
+			</div>
+		</section>
+       
      </div>
 </body>
 </html>
