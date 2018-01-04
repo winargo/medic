@@ -93,7 +93,7 @@
        </nav>
        <div id="content">
        <form method="post" action="upload.php" enctype="multipart/form-data">
-    <h2 id="emergencytitle">Pertolongan Darurat</h2>
+    <h2 id="emergencytitle" style="color:black;">Pertolongan Darurat</h2>
        <div id="emergencyitem">
            <img src="images/noimage.jpg" id="imageemergency">
            <div id="emergencyinfo">
